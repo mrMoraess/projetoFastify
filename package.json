@@ -1,0 +1,20 @@
+{
+  "name": "sistemagerenciamentoestoque",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "matheus",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/app.js"
+  },
+  "dependencies": {
+    "@fastify/mysql": "^5.0.1",
+    "@fastify/postgres": "^6.0.1",
+    "dotenv": "^16.4.7",
+    "fastify": "^5.2.0",
+    "pg": "^8.13.1",
+    "sistemagerenciamentoestoque": "file:"
+  }
+}
