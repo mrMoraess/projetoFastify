@@ -36,16 +36,33 @@ async function createUser (request, reply) {
 
 }
 
-async function uptadeUser () {
+async function updateUser (request, reply) {
+    const {id, name, password} = request.body;
+    const connection = await mysqlConn.DATABASE.getConnection();
+
+    const [rows] = await connection.execute(
+        'SELECT * FROM user WHERE id = ?', [id]
+    )
+    console.log(rows[0].name)
+    const result = await connection.execute(
+        'UPDATE user SET name = ?, password = ? WHERE id = ?', [name || rows[0].name, password || rows[0].password, id]
+    )
 
 }  
 
-async function deleteUser () {
+async function deleteUser (request, reply) {
+
+    const {id} = request.body;
+    const connection = await mysqlConn.DATABASE.getConnection();
+    const result = await connection.execute("DELETE FROM user WHERE id = ?", [id])
+    reply.send(result)
 
 }
 
 module.exports = {
     createUser,
     getUser,
-    getAllUsers
+    getAllUsers,
+    updateUser,
+    deleteUser
 }
