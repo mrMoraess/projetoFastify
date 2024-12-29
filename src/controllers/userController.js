@@ -1,10 +1,21 @@
 const mysqlConn = require("../config/database")
 
-async function getAllUsers () {
-
+async function getAllUsers (request, reply) {
+    const connection = await mysqlConn.DATABASE.getConnection();
+    const [rows] = await connection.execute(
+        'SELECT * FROM user'
+    )
+    reply.send(rows || {msg: "There is no users"})
 }
 
-async function getUser () {
+async function getUser (request, reply) {
+    const {id} = request.body;
+
+    const connection = await mysqlConn.DATABASE.getConnection();
+    const [rows] = await connection.execute(
+        'SELECT * FROM user WHERE id = ?', [id]
+    )
+    reply.send(rows[0] || {msg: "User not found"})
 
 }
 
@@ -34,5 +45,7 @@ async function deleteUser () {
 }
 
 module.exports = {
-    createUser
+    createUser,
+    getUser,
+    getAllUsers
 }
