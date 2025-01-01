@@ -43,10 +43,15 @@ async function updateUser (request, reply) {
     const [rows] = await connection.execute(
         'SELECT * FROM user WHERE id = ?', [id]
     )
-    console.log(rows[0].name)
-    const result = await connection.execute(
-        'UPDATE user SET name = ?, password = ? WHERE id = ?', [name || rows[0].name, password || rows[0].password, id]
-    )
+
+    if (rows.length > 0) {
+        const result = await connection.execute(
+            'UPDATE user SET name = ?, password = ? WHERE id = ?', [name || rows[0].name, password || rows[0].password, id]
+        )
+        reply.send({msg: result})
+    } else {
+        reply.code(404).send({msg: "Usuário inexistente"})
+    }
 
 }  
 
